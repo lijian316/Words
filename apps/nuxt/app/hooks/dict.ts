@@ -249,11 +249,13 @@ export function getCurrentStudyWord(): TaskWords {
           })
           data.review = result.concat(words)
         }
+      } else {
+        data.review = result
       }
     }
   }
   // console.log('data-new', data.new.map(v => v.word))
-  // console.log('data-review', data.review.map(v => v.word))
+  console.log('data-review', data.review.map(v => v.word))
   return data
 }
 

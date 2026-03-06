@@ -571,9 +571,11 @@ function removeSbConfig() {
                 </FormItem>
 <!--                <FormItem label="创建表语句">-->
 <!--                  <span>-->
-<!--                    CREATE TABLE IF NOT EXISTS typewords_data ( id SERIAL PRIMARY KEY, data JSONB, type TEXT UNIQUE NOT-->
-<!--                    NULL, updated_at TIMESTAMPTZ DEFAULT now() ); INSERT INTO typewords_data (type, data) VALUES-->
-<!--                    ('word', '{}'), ('setting', '{}'), ('cache', '{}') ON CONFLICT (type) DO NOTHING;-->
+<!--                    
+                        CREATE TABLE IF NOT EXISTS typewords_data ( id SERIAL PRIMARY KEY, data JSONB, type TEXT UNIQUE NOT
+                        NULL, updated_at TIMESTAMPTZ DEFAULT now() ); INSERT INTO typewords_data (type, data) VALUES
+                        ('word', '{}'), ('setting', '{}'), ('cache', '{}') ON CONFLICT (type) DO NOTHING;
+-->
 <!--                  </span>-->
 <!--                </FormItem>-->
               </Form>

@@ -413,7 +413,7 @@ function next(isTyping: boolean = true) {
   } else {
     if (data.index === data.words.length - 1) {
       //如果开发模式并且不是手动敲的，不轮询
-      if (
+/*       if (
         (statStore.stage === WordPracticeStage.FollowWriteNewWord || data.isTypingWrongWord) &&
         !(IS_DEV && !isTyping)
       ) {
@@ -425,7 +425,7 @@ function next(isTyping: boolean = true) {
           if (checkWordIsNeedNext(word)) next(false)
           return
         }
-      }
+      } */
       data.wrongWords = data.wrongWords.filter(v => !checkWordIsNeedNext(v))
       if (data.wrongWords.length) {
         data.isTypingWrongWord = true
@@ -505,7 +505,7 @@ function next(isTyping: boolean = true) {
     }
   }
 
-  if (checkWordIsNeedNext(word)) next(false)
+  // if (checkWordIsNeedNext(word)) next(false)
 }
 
 //检查单词是否跳过
