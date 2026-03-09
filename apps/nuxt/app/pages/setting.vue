@@ -710,7 +710,7 @@ function removeSbConfig() {
               class="tab"
               :class="tabIndex === 8 && 'active'"
               @click="
-                () => {
+                  () => {
                   tabIndex = 8
                   // runtimeStore.isNew = false
                   // set(APP_VERSION.key, APP_VERSION.version)
@@ -901,7 +901,6 @@ function removeSbConfig() {
       <div v-else class="flex flex-col gap-3">
         <div v-for="item in historyBackups" :key="item.key" class="border rounded-md">
           <div class="">版本号：{{ item.hash }}</div>
-          <div class="color-gray">上一个版本：{{ item.previousHash || '-' }}</div>
           <div class="color-gray">自动备份时间：{{ formatHistoryTime(item.createdAt) }}</div>
           <div class="mt-2">
             <BaseButton @click="openHistoryRestoreGate(item)" :disabled="restoreLoading">恢复此版本</BaseButton>

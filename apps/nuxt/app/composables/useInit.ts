@@ -268,9 +268,8 @@ export function useInit() {
       if (!currentHash) return
 
       const localHash = normalizeHash(await get(WEBSITE_VERSION_HASH))
-      //如果本地hash与代码hash不一值，则保存快照
       if (localHash !== currentHash) {
-        await saveHashSnapshot(currentHash, localHash)
+        await saveHashSnapshot(localHash, '')
       }
       await set(WEBSITE_VERSION_HASH, currentHash)
     } catch (e) {
