@@ -601,6 +601,7 @@ async function savePracticeDataIns(where?) {
   }
   if (showStatDialog) return
   // console.log('savePracticeData', where)
+  if (runtimeStore.globalLoading)return
   runtimeStore.globalLoading = true
   await wordPersistence.save({
     taskWords,

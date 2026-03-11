@@ -82,7 +82,11 @@ const showIcon = $computed(() => {
         <NuxtLink to="/setting" class="row">
           <IconFluentSettings20Regular />
           <span>{{ $t('setting') }}</span>
-          <div class="red-point" :class="!settingStore.sideExpand && 'top-1 right-0'"  v-if="runtimeStore.isNew || runtimeStore.isError"></div>
+          <div
+            class="red-point"
+            :class="!settingStore.sideExpand && 'top-1 right-0'"
+            v-if="runtimeStore.isNew || runtimeStore.isError"
+          ></div>
         </NuxtLink>
         <NuxtLink to="/feedback" class="row">
           <IconFluentCommentEdit20Regular />
@@ -141,6 +145,9 @@ const showIcon = $computed(() => {
     <IeDialog />
 
     <div class="flex-1 z-1 relative main-content overflow-x-hidden">
+      <div class="mt-3 center relative z-9999" @click="router.push('/setting?index=6 ')" v-if="runtimeStore.isError">
+        <ToastComponent type="error" :duration="0" :shadow="false" :showClose="false" message="同步失败" />
+      </div>
       <!--      <slot></slot>-->
       <router-view></router-view>
       <div class="absolute right-4 top-4 flex z-1 gap-2" v-if="showIcon">

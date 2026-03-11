@@ -58,7 +58,7 @@ export function useExport() {
           [APP_VERSION.key]: -1,
         },
       }
-      let d = await wordPersistence.load()
+      let d = await wordPersistence.getLocalDataCompact()
       if (d) {
         try {
           data.val[PRACTICE_WORD_CACHE.key].val = d

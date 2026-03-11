@@ -71,7 +71,7 @@ useSeoMeta({
   twitterDescription: title,
 })
 
-const tabIndex = $ref(0)
+const tabIndex = $ref(Number(route?.query?.index ?? 0))
 const settingStore = useSettingStore()
 const runtimeStore = useRuntimeStore()
 const store = useBaseStore()
@@ -710,7 +710,7 @@ function removeSbConfig() {
               class="tab"
               :class="tabIndex === 8 && 'active'"
               @click="
-                  () => {
+                () => {
                   tabIndex = 8
                   // runtimeStore.isNew = false
                   // set(APP_VERSION.key, APP_VERSION.version)
@@ -719,7 +719,7 @@ function removeSbConfig() {
             >
               <IconFluentTextBulletListSquare20Regular />
               <span>{{ $t('update_log') }}</span>
-<!--              <div class="red-point" v-if="runtimeStore.isNew"></div>-->
+              <!--              <div class="red-point" v-if="runtimeStore.isNew"></div>-->
             </div>
             <div class="tab" :class="tabIndex === 9 && 'active'" @click="tabIndex = 9">
               <IconFluentPerson20Regular />
