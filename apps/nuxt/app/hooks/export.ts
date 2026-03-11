@@ -64,7 +64,7 @@ export function useExport() {
           data.val[PRACTICE_WORD_CACHE.key].val = d
         } catch (e) {}
       }
-      let d1 = await articlePersistence.load()
+      let d1 = await articlePersistence.getLocalDataCompact()
       if (d1) {
         try {
           data.val[PRACTICE_ARTICLE_CACHE.key].val = d1

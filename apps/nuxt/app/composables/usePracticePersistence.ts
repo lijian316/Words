@@ -17,7 +17,7 @@ import {
   setPracticeWordCacheLocal,
 } from '@/utils/cache'
 import { Supabase } from '@/utils/supabase'
-import { compareTimestamps, shouldFetchRemote, shouldFetchRemoteV2 } from '@/utils/sync'
+import { shouldFetchRemoteV2 } from '@/utils/sync'
 import { CompareResult } from '~/types/enum'
 
 const PRACTICE_TYPE_WORD = 'practice_word'
@@ -169,19 +169,8 @@ function restorePracticeWordCache(data: PracticeWordCacheStored | null): Practic
 
 export function usePracticeWordPersistence() {
   async function load(): Promise<PracticeWordCache | null> {
-    const compareResult = await fetchCompareResult()
-    if (compareResult === CompareResult.RemoteNewer) {
-      const remote = await fetchFromSupabase('word')
-      const remoteData = remote?.data as PracticeWordCacheStored
-      setPracticeWordCacheLocal(remoteData, remote?.updated_at)
-      return restorePracticeWordCache(remoteData)
-    } else {
-      return restorePracticeWordCache(getPracticeWordCacheLocal())
-    }
-  }
-
-  async function getLocalDataCompact(): Promise<PracticeWordCacheStored> {
-    return getPracticeWordCacheLocal()
+    const res = await fetch()
+    return res ?? restorePracticeWordCache(getPracticeWordCacheLocal())
   }
 
   async function fetch(): Promise<PracticeWordCache | null> {
@@ -195,14 +184,19 @@ export function usePracticeWordPersistence() {
     return null
   }
 
+  async function getLocalDataCompact(): Promise<PracticeWordCacheStored> {
+    return getPracticeWordCacheLocal()
+  }
+
   async function fetchCompareResultLogWrap(): Promise<CompareResult> {
     const remoteMeta = await fetchMetaFromSupabase('word')
     if (!remoteMeta) return CompareResult.NoRemote
     const localMeta = getPracticeWordCacheLocalWithMeta()
-    if (!localMeta) return CompareResult.LocalNewer
+    if (!localMeta) return CompareResult.NoLocal
     const currentVersion = PRACTICE_WORD_CACHE.version
     return shouldFetchRemoteV2(localMeta?.updated_at, remoteMeta?.updated_at, remoteMeta?.data_version, currentVersion)
   }
+
   async function fetchCompareResult(): Promise<CompareResult> {
     const result = await fetchCompareResultLogWrap()
     console.log('CompareResult', CompareResult[result])
@@ -215,15 +209,12 @@ export function usePracticeWordPersistence() {
     const compactData = serializePracticeWordCache(data)
     if (compareResult === CompareResult.NoRemote) {
       setPracticeWordCacheLocal(compactData, updated_at)
-    } else if (compareResult === CompareResult.Equal) {
-      setPracticeWordCacheLocal(compactData, updated_at)
-      await upsertPracticeData('word', compactData, updated_at)
-    } else if (compareResult === CompareResult.LocalNewer) {
-      setPracticeWordCacheLocal(compactData, updated_at)
-      await upsertPracticeData('word', compactData, updated_at)
     } else if (compareResult === CompareResult.RemoteNewer) {
       const remote = await fetchFromSupabase('word')
       setPracticeWordCacheLocal(remote?.data as PracticeWordCacheStored, remote?.updated_at)
+    } else {
+      setPracticeWordCacheLocal(compactData, updated_at)
+      await upsertPracticeData('word', compactData, updated_at)
     }
   }
 
@@ -237,44 +228,54 @@ export function usePracticeWordPersistence() {
 }
 
 export function usePracticeArticlePersistence() {
-  async function load(): Promise<PracticeArticleCache | null> {
+  async function fetchCompareResultLogWrap(): Promise<CompareResult> {
     const remoteMeta = await fetchMetaFromSupabase('article')
+    if (!remoteMeta) return CompareResult.NoRemote
     const localMeta = getPracticeArticleCacheLocalWithMeta()
+    if (!localMeta) return CompareResult.NoLocal
     const currentVersion = PRACTICE_ARTICLE_CACHE.version
-    const compareResult = compareTimestamps(localMeta?.updated_at, remoteMeta?.updated_at)
+    return shouldFetchRemoteV2(localMeta?.updated_at, remoteMeta?.updated_at, remoteMeta?.data_version, currentVersion)
+  }
 
-    if (remoteMeta?.data_version == null && localMeta?.val) {
-      const updated_at = localMeta.updated_at ?? new Date().toISOString()
-      setPracticeArticleCacheLocal(localMeta.val, updated_at)
-      void upsertPracticeData('article', localMeta.val, updated_at)
-      return localMeta.val
-    }
+  async function fetchCompareResult(): Promise<CompareResult> {
+    const result = await fetchCompareResultLogWrap()
+    console.log('CompareResult', CompareResult[result])
+    return result
+  }
 
-    if (
-      remoteMeta &&
-      shouldFetchRemote(localMeta?.updated_at, remoteMeta?.updated_at, remoteMeta?.data_version, currentVersion)
-    ) {
-      const remote = await fetchFromSupabase('article')
-      const remoteData =
-        remote?.data != null && typeof remote.data === 'object' ? (remote.data as PracticeArticleCache) : null
-      setPracticeArticleCacheLocal(remoteData, remote?.updated_at)
-      return remoteData
-    }
+  async function load(): Promise<PracticeArticleCache | null> {
+    const res = await fetch()
+    return res ?? getPracticeArticleCacheLocal()
+  }
 
-    if (localMeta?.val) {
-      if (compareResult === 'local_newer') {
-        void upsertPracticeData('article', localMeta.val, localMeta.updated_at ?? new Date().toISOString())
-      }
-      return localMeta.val
-    }
-
+  async function getLocalDataCompact(): Promise<PracticeArticleCache | null> {
     return getPracticeArticleCacheLocal()
   }
 
-  function save(data: PracticeArticleCache | null): void {
+  async function fetch(): Promise<PracticeArticleCache | null> {
+    const compareResult = await fetchCompareResult()
+    if (compareResult === CompareResult.RemoteNewer) {
+      const remote = await fetchFromSupabase('article')
+      const remoteData = remote?.data as PracticeArticleCache
+      setPracticeArticleCacheLocal(remoteData, remote?.updated_at)
+      return remoteData
+    }
+    return null
+  }
+
+  async function save(data: PracticeArticleCache | null): Promise<void> {
+    const compareResult = await fetchCompareResult()
     const updated_at = new Date().toISOString()
-    setPracticeArticleCacheLocal(data, updated_at)
-    void upsertPracticeData('article', data ?? null, updated_at)
+    if (compareResult === CompareResult.NoRemote) {
+      setPracticeArticleCacheLocal(data, updated_at)
+    } else if (compareResult === CompareResult.RemoteNewer) {
+      const remote = await fetchFromSupabase('article')
+      const remoteData = remote?.data as PracticeArticleCache
+      setPracticeArticleCacheLocal(remoteData, remote?.updated_at)
+    } else {
+      setPracticeArticleCacheLocal(data, updated_at)
+      await upsertPracticeData('article', data ?? null, updated_at)
+    }
   }
 
   function clear(): void {
@@ -283,9 +284,5 @@ export function usePracticeArticlePersistence() {
     void upsertPracticeData('article', null, updated_at)
   }
 
-  async function refreshFromRemote(): Promise<PracticeArticleCache | null> {
-    return load()
-  }
-
-  return { load, save, clear, refreshFromRemote }
+  return { load, save, clear, fetch, getLocalDataCompact }
 }

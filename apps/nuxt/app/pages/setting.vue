@@ -44,6 +44,7 @@ import Form, { type FormType } from '~/components/base/form/Form.vue'
 import { Supabase } from '~/utils/supabase.ts'
 import BackupGateDialog from '@/components/dialog/BackupGateDialog.vue'
 import { createClient } from '@supabase/supabase-js'
+import { useRoute } from 'vue-router'
 
 const Dialog = defineAsyncComponent(() => import('@/components/dialog/Dialog.vue'))
 

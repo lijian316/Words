@@ -3,6 +3,7 @@ export enum CompareResult {
   LocalNewer = 1,
   Equal = 2,
   NoRemote = 3,
+  NoLocal = 4,
 }
 
 export enum DictType {

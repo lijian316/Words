@@ -1,5 +1,5 @@
 import { DictType, PracticeArticleWordType } from '@/types/enum'
-import type { Card, RecordLogItem, ReviewLog } from 'ts-fsrs'
+import type { Card, Rating, RecordLogItem, ReviewLog } from 'ts-fsrs'
 
 export type Word = {
   id?: string
@@ -143,10 +143,12 @@ export interface PracticeData {
   words: Word[]
   wrongWords: Word[]
   excludeWords: string[]
+  allWrongWords: string[]
   isTypingWrongWord: boolean
   // word -> wrongTimes 用以评级
   wrongTimesMap: Record<string, number>
   wrongTimes: number
+  ratingMap: Record<string, Rating>
 }
 
 export interface TaskWords {

@@ -62,15 +62,23 @@ let taskWords = $ref<TaskWords>({
 //watch 实例列表，用于本地代码修改hrm后，导致重复watch
 let watchRefList = []
 
-let data = $ref<PracticeData>({
-  index: 0,
-  words: [],
-  wrongWords: [],
-  excludeWords: [],
-  wrongTimesMap: {},
-  wrongTimes: 0,
-  isTypingWrongWord: false,
-})
+function getDefaultPracticeData(val: Partial<PracticeData>): PracticeData {
+  return Object.assign(
+    {
+      index: 0,
+      words: [],
+      wrongWords: [],
+      excludeWords: [],
+      allWrongWords: [],
+      wrongTimesMap: {},
+      ratingMap: {},
+      wrongTimes: 0,
+      isTypingWrongWord: false,
+    },
+    val
+  )
+}
+let data = $ref<PracticeData>(getDefaultPracticeData({}))
 
 provide('practiceData', data)
 provide('practiceTaskWords', taskWords)
@@ -202,7 +210,7 @@ async function initData(initVal?: TaskWords, init: boolean = false) {
     }
     taskWords = Object.assign(taskWords, d.taskWords)
     //这里直接赋值的话，provide后的inject获取不到最新值
-    data = Object.assign(data, d.practiceData)
+    data = getDefaultPracticeData(d.practiceData)
     statStore.$patch(d.statStoreData)
   } else {
     // taskWords = initVal
@@ -211,14 +219,14 @@ async function initData(initVal?: TaskWords, init: boolean = false) {
 
     if (settingStore.wordPracticeMode === WordPracticeMode.Shuffle) {
       settingStore.wordPracticeType = WordPracticeType.Dictation
-      data.words = taskWords.review
+      data = getDefaultPracticeData({ words: taskWords.review })
       statStore.stage = WordPracticeStage.Shuffle
       statStore.total = taskWords.review.length
       statStore.newWordNumber = 0
       statStore.reviewWordNumber = 0
     } else if (settingStore.wordPracticeMode === WordPracticeMode.Review) {
       if (taskWords.review.length) {
-        data.words = taskWords.review
+        data = getDefaultPracticeData({ words: taskWords.review })
         statStore.stage = WordPracticeStage.IdentifyReview
       }
       statStore.total = taskWords.review.length
@@ -227,7 +235,7 @@ async function initData(initVal?: TaskWords, init: boolean = false) {
     } else {
       if (taskWords.new.length === 0) {
         if (taskWords.review.length) {
-          data.words = taskWords.review
+          data = getDefaultPracticeData({ words: taskWords.review })
           if (settingStore.wordPracticeMode === WordPracticeMode.System) {
             statStore.stage = WordPracticeStage.IdentifyReview
           } else if (settingStore.wordPracticeMode === WordPracticeMode.Free) {
@@ -244,7 +252,7 @@ async function initData(initVal?: TaskWords, init: boolean = false) {
           router.push('/words')
         }
       } else {
-        data.words = taskWords.new
+        data = getDefaultPracticeData({ words: taskWords.new })
         statStore.stage = WordPracticeModeStageMap[settingStore.wordPracticeMode][0]
       }
       statStore.total = taskWords.review.length + taskWords.new.length
@@ -252,16 +260,10 @@ async function initData(initVal?: TaskWords, init: boolean = false) {
       statStore.reviewWordNumber = taskWords.review.length
     }
 
-    data.index = 0
-    data.wrongWords = []
-    data.excludeWords = []
-    allWrongWords.clear()
     statStore.startDate = Date.now()
     statStore.inputWordNumber = 0
     statStore.wrong = 0
     statStore.spend = 0
-    data.isTypingWrongWord = false
-
     watchStage(statStore.stage)
     watchPracticeType(settingStore.wordPracticeType)
   }
@@ -389,10 +391,18 @@ function complete() {
       }
     }
 
-    for (const [word, wrongTimes] of Object.entries(data.wrongTimesMap)) {
-      //根据错误次数生成评级
-      setWordCard(getGradeByWrongTimes(wrongTimes), word, wrongTimes)
-    }
+    //用异步，不然会很卡，因为要设置很多卡片
+    setTimeout(() => {
+      for (const [word, wrongTimes] of Object.entries(data.wrongTimesMap)) {
+        let rating = data.ratingMap[word]
+        if (rating !== undefined) {
+          setWordCard(rating, word)
+        } else {
+          // 则根据错误次数生成评级
+          setWordCard(getGradeByWrongTimes(wrongTimes), word, wrongTimes)
+        }
+      }
+    })
 
     clearInterval(timer)
     setTimeout(() => wordPersistence.clear(), 300)
@@ -405,7 +415,7 @@ function next(isTyping: boolean = true) {
 
   data.wrongTimesMap[temp] = (data.wrongTimesMap[temp] ?? 0) + data.wrongTimes
   data.wrongTimes = 0
-  
+
   // debugger
   if (isTyping) statStore.inputWordNumber++
   if (settingStore.wordPracticeMode === WordPracticeMode.Free) {
@@ -460,33 +470,12 @@ function next(isTyping: boolean = true) {
             nextStage(shuffle(taskWords.new), '开始默写新词')
           } else if (statStore.stage === WordPracticeStage.DictationNewWord) {
             console.log('新词学习完成')
-            // setTimeout(() => {
-            //   let easyCount = 0
-            //   let maxCount = Math.floor(taskWords.new.length * 0.2)
-            //   taskWords.new.map((w, _, arr) => {
-            //     //如果没有打错过/或者主动跳过的单词，设为 Easy，但不超过总新词数的 20%
-            //     if ((!allWrongWords.has(w.word) || checkWordIsNeedNext(word)) && easyCount < maxCount) {
-            //       easyCount++
-            //       setWordCard(Rating.Easy, w.word)
-            //     } else {
-            //       //其他词，则根据错误次数生成评级
-            //       setWordCard(getGradeByWrongTimes(data.wrongTimesMap[w.word]), w.word, data.wrongTimesMap[w.word])
-            //     }
-            //     setWordCard(getGradeByWrongTimes(data.wrongTimesMap[w.word]), w.word, data.wrongTimesMap[w.word])
-            //   })
-            // })
             nextStage(taskWords.review, '开始自测旧词')
           } else if (statStore.stage === WordPracticeStage.IdentifyReview) {
             nextStage(shuffle(taskWords.review), '开始听写旧词', true)
           } else if (statStore.stage === WordPracticeStage.ListenReview) {
             nextStage(shuffle(taskWords.review), '开始默写旧词')
           } else if (statStore.stage === WordPracticeStage.DictationReview) {
-            // setTimeout(() => {
-            //   taskWords.review.map(w => {
-            //     //根据错误次数生成评级
-            //     setWordCard(getGradeByWrongTimes(data.wrongTimesMap[w.word]), w.word, data.wrongTimesMap[w.word])
-            //   })
-            // })
             complete()
           }
         } else if (settingStore.wordPracticeMode === WordPracticeMode.ListenOnly) {
@@ -547,13 +536,9 @@ function addExcludeWord() {
   }
 }
 
-function onWordMastered() {
-  // setWordCard(Rating.Easy)
-  skip()
-}
-
 function onWordKnow() {
-  // setWordCard(Rating.Good)
+  //"我认识“强制更新了Good，因为点”已掌握“才会设置Easy
+  data.ratingMap[word.word.toLowerCase()] = Rating.Good
   addExcludeWord()
 }
 
@@ -562,8 +547,8 @@ function onTypeWrong() {
   //这里的代码暂时不能移动，因为要实时把错词加入到列表里面，从而更新toolbar里面的错词数
   //todo 后续可以优化
   let temp = word.word.toLowerCase()
-  if (!allWrongWords.has(word.word.toLowerCase())) {
-    allWrongWords.add(word.word.toLowerCase())
+  if (!data.allWrongWords.find(v => v === temp)) {
+    data.allWrongWords.push(temp)
     statStore.wrong++
   }
   if (!store.wrong.words.find((v: Word) => v.word.toLowerCase() === temp)) {
@@ -603,7 +588,7 @@ async function savePracticeDataIns(where?) {
   }
   if (isComplete) return
   // console.log('savePracticeData', where)
-  if (runtimeStore.globalLoading)return
+  if (runtimeStore.globalLoading) return
   runtimeStore.globalLoading = true
   await wordPersistence.save({
     taskWords,
@@ -657,9 +642,6 @@ function prev() {
 }
 
 function skip() {
-  // if (settingStore.wordPracticeType === WordPracticeType.Identify) {
-  //   setWordCard(Rating.Easy)
-  // }
   addExcludeWord()
   next(false)
 }
@@ -845,7 +827,7 @@ useEvents([
           :word="word"
           @wrong="onTypeWrong"
           @complete="next"
-          @mastered="onWordMastered"
+          @mastered="toggleWordSimpleWrapper"
           @know="onWordKnow"
           @skip="skip"
           @toggle-simple="toggleWordSimpleWrapper"

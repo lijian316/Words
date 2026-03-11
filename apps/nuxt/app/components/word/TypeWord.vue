@@ -647,14 +647,14 @@ const isCollect = $computed(() => isWordCollect(props.word))
       </div>
 
       <div
-        class="mt-4 flex gap-4"
+        class="mt-4 flex gap-2"
         v-if="settingStore.wordPracticeType === WordPracticeType.Identify && !showWordResult"
       >
         <BaseButton
           :keyboard="`${$t('shortcut')}(${settingStore.shortcutKeyMap[ShortcutKey.KnowWord]})`"
           size="large"
           @click="know"
-          >{{ $t('i_know') }}
+        >{{ $t('i_know') }}
         </BaseButton>
         <BaseButton
           :keyboard="`${$t('shortcut')}(${settingStore.shortcutKeyMap[ShortcutKey.UnknownWord]})`"
@@ -666,7 +666,7 @@ const isCollect = $computed(() => isWordCollect(props.word))
           :keyboard="`${$t('shortcut')}(${settingStore.shortcutKeyMap[ShortcutKey.MasteredWord]})`"
           size="large"
           @click="mastered"
-          >非常熟悉
+          >已掌握
         </BaseButton>
       </div>
 
