@@ -54,8 +54,6 @@ const settingStore = useSettingStore()
     </SettingItem>
 
     <!--          发音-->
-    <!--          发音-->
-    <!--          发音-->
     <div class="line"></div>
     <SettingItem :mainTitle="$t('sound_effect')"/>
     <SettingItem :title="$t('word_auto_pronunciation')">
@@ -75,8 +73,6 @@ const settingStore = useSettingStore()
       <Slider v-model="settingStore.effectSoundVolume" showText showValue unit="%"/>
     </SettingItem>
 
-    <!--          自动切换-->
-    <!--          自动切换-->
     <!--          自动切换-->
     <div class="line"></div>
     <SettingItem :mainTitle="$t('auto_switch')"/>
@@ -99,9 +95,6 @@ const settingStore = useSettingStore()
       <span class="ml-4">{{ $t('milliseconds') }}</span>
     </SettingItem>
 
-
-    <!--          字体设置-->
-    <!--          字体设置-->
     <!--          字体设置-->
     <div class="line"></div>
     <SettingItem :mainTitle="$t('font_setting')"/>

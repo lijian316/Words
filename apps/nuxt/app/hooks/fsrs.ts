@@ -1,4 +1,4 @@
-import { Rating } from "ts-fsrs"
+import { FSRS, Rating, type Card, type CardInput, type DateInput, type Grade } from "ts-fsrs"
 
 export function useGetGradeByWrongTimes() {
     let store = useSettingStore()
@@ -13,4 +13,14 @@ export function useGetGradeByWrongTimes() {
         }
     }
     return { getGradeByWrongTimes }
+}
+
+
+export function useNextCard() {
+    let store = useSettingStore()
+    let fsrs = new FSRS(store.fsrsParameters);
+    function nextCard(card: CardInput | Card, grade: Grade): Card {
+        return fsrs.next(card, new Date(), grade).card
+    }
+    return { nextCard }
 }

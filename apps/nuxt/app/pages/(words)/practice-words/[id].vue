@@ -32,8 +32,8 @@ import { getPracticeWordCacheLocal } from '@/utils/cache.ts'
 import { usePracticeWordPersistence } from '@/composables/usePracticePersistence'
 import { ShortcutKey, WordPracticeMode, WordPracticeStage, WordPracticeType } from '@/types/enum.ts'
 import ConflictNotice2 from '~/components/dialog/ConflictNotice2.vue'
-import { createEmptyCard, FSRS, Rating } from 'ts-fsrs'
-import { useGetGradeByWrongTimes } from '~/hooks/fsrs'
+import { createEmptyCard, Rating } from 'ts-fsrs'
+import { useGetGradeByWrongTimes, useNextCard } from '~/hooks/fsrs'
 
 const { toggleWordCollect, isWordSimple, toggleWordSimple } = useWordOptions()
 const settingStore = useSettingStore()
@@ -44,15 +44,16 @@ const route = useRoute()
 const store = useBaseStore()
 const statStore = usePracticeStore()
 const wordPersistence = usePracticeWordPersistence()
+let { getGradeByWrongTimes } = useGetGradeByWrongTimes()
+let { nextCard } = useNextCard()
 const typingRef: any = $ref()
 let showConflictNotice = $ref(false)
 let showConflictNotice2 = $ref(false)
 let allWrongWords = new Set()
-let showStatDialog = $ref(false)
+let isComplete = $ref(false)
 let loading = $ref(false)
 let timer = $ref<any>(-1)
 let isFocus = true
-let fsrs = new FSRS({})
 let taskWords = $ref<TaskWords>({
   new: [],
   review: [],
@@ -369,8 +370,9 @@ function nextStage(originList: Word[], log: string = '', toast: boolean = false)
 }
 
 function complete() {
-  if (!showStatDialog) {
+  if (!isComplete) {
     console.log('全完学完了')
+
     //如果 shuffle 数组不为空，就说明是复习，不用修改 lastLearnIndex
     if (settingStore.wordPracticeMode !== WordPracticeMode.Shuffle) {
       store.sdict.lastLearnIndex = store.sdict.lastLearnIndex + statStore.newWordNumber
@@ -387,20 +389,23 @@ function complete() {
       }
     }
 
+    for (const [word, wrongTimes] of Object.entries(data.wrongTimesMap)) {
+      //根据错误次数生成评级
+      setWordCard(getGradeByWrongTimes(wrongTimes), word, wrongTimes)
+    }
+
     clearInterval(timer)
     setTimeout(() => wordPersistence.clear(), 300)
-    showStatDialog = true
+    isComplete = true
   }
 }
 
-let { getGradeByWrongTimes } = useGetGradeByWrongTimes()
-
 function next(isTyping: boolean = true) {
   let temp = word.word.toLowerCase()
-  if (data.wrongTimes) {
-    data.wrongTimesMap[temp] = (data.wrongTimesMap[temp] ?? 0) + data.wrongTimes
-    data.wrongTimes = 0
-  }
+
+  data.wrongTimesMap[temp] = (data.wrongTimesMap[temp] ?? 0) + data.wrongTimes
+  data.wrongTimes = 0
+  
   // debugger
   if (isTyping) statStore.inputWordNumber++
   if (settingStore.wordPracticeMode === WordPracticeMode.Free) {
@@ -455,32 +460,33 @@ function next(isTyping: boolean = true) {
             nextStage(shuffle(taskWords.new), '开始默写新词')
           } else if (statStore.stage === WordPracticeStage.DictationNewWord) {
             console.log('新词学习完成')
-            setTimeout(() => {
-              let easyCount = 0
-              let maxCount = Math.floor(taskWords.new.length * 0.2)
-              taskWords.new.map((w, _, arr) => {
-                //如果没有打错过/或者主动跳过的单词，设为 Easy，但不超过总新词数的 20%
-                if ((!allWrongWords.has(w.word) || checkWordIsNeedNext(word)) && easyCount < maxCount) {
-                  easyCount++
-                  setWordCard(Rating.Easy, w.word)
-                } else {
-                  //其他词，则根据错误次数生成评级
-                  setWordCard(getGradeByWrongTimes(data.wrongTimesMap[w.word]), w.word, data.wrongTimesMap[w.word])
-                }
-              })
-            })
+            // setTimeout(() => {
+            //   let easyCount = 0
+            //   let maxCount = Math.floor(taskWords.new.length * 0.2)
+            //   taskWords.new.map((w, _, arr) => {
+            //     //如果没有打错过/或者主动跳过的单词，设为 Easy，但不超过总新词数的 20%
+            //     if ((!allWrongWords.has(w.word) || checkWordIsNeedNext(word)) && easyCount < maxCount) {
+            //       easyCount++
+            //       setWordCard(Rating.Easy, w.word)
+            //     } else {
+            //       //其他词，则根据错误次数生成评级
+            //       setWordCard(getGradeByWrongTimes(data.wrongTimesMap[w.word]), w.word, data.wrongTimesMap[w.word])
+            //     }
+            //     setWordCard(getGradeByWrongTimes(data.wrongTimesMap[w.word]), w.word, data.wrongTimesMap[w.word])
+            //   })
+            // })
             nextStage(taskWords.review, '开始自测旧词')
           } else if (statStore.stage === WordPracticeStage.IdentifyReview) {
             nextStage(shuffle(taskWords.review), '开始听写旧词', true)
           } else if (statStore.stage === WordPracticeStage.ListenReview) {
             nextStage(shuffle(taskWords.review), '开始默写旧词')
           } else if (statStore.stage === WordPracticeStage.DictationReview) {
-            setTimeout(() => {
-              taskWords.review.map(w => {
-                //根据错误次数生成评级
-                setWordCard(getGradeByWrongTimes(data.wrongTimesMap[w.word]), w.word, data.wrongTimesMap[w.word])
-              })
-            })
+            // setTimeout(() => {
+            //   taskWords.review.map(w => {
+            //     //根据错误次数生成评级
+            //     setWordCard(getGradeByWrongTimes(data.wrongTimesMap[w.word]), w.word, data.wrongTimesMap[w.word])
+            //   })
+            // })
             complete()
           }
         } else if (settingStore.wordPracticeMode === WordPracticeMode.ListenOnly) {
@@ -542,12 +548,12 @@ function addExcludeWord() {
 }
 
 function onWordMastered() {
-  setWordCard(Rating.Easy)
+  // setWordCard(Rating.Easy)
   skip()
 }
 
 function onWordKnow() {
-  setWordCard(Rating.Good)
+  // setWordCard(Rating.Good)
   addExcludeWord()
 }
 
@@ -568,10 +574,6 @@ function onTypeWrong() {
     data.wrongWords.push(word)
   }
   savePracticeData('wrong')
-
-  if (settingStore.wordPracticeType === WordPracticeType.Identify) {
-    setWordCard(Rating.Again)
-  }
 }
 
 //设置单词卡片
@@ -580,7 +582,7 @@ function setWordCard(rating: number, wordStr = word.word, times?: number) {
   if (!card) {
     card = createEmptyCard()
   }
-  card = fsrs.next(card, Date.now(), rating).card
+  card = nextCard(card, rating)
   store.fsrsData[wordStr] = card
   // console.log(
   //   `更新卡片: 单词：${wordStr}, 模式：${WordPracticeType[settingStore.wordPracticeType]}, 评分: ${Rating[rating]}, 次数：${times}, 卡片: `,
@@ -599,7 +601,7 @@ async function savePracticeDataIns(where?) {
     //未开始练习
     return
   }
-  if (showStatDialog) return
+  if (isComplete) return
   // console.log('savePracticeData', where)
   if (runtimeStore.globalLoading)return
   runtimeStore.globalLoading = true
@@ -655,9 +657,9 @@ function prev() {
 }
 
 function skip() {
-  if (settingStore.wordPracticeType === WordPracticeType.Identify) {
-    setWordCard(Rating.Easy)
-  }
+  // if (settingStore.wordPracticeType === WordPracticeType.Identify) {
+  //   setWordCard(Rating.Easy)
+  // }
   addExcludeWord()
   next(false)
 }
@@ -702,10 +704,10 @@ async function continueStudy() {
       0,
       runtimeStore.routeData.total ?? temp.review.length
     )
-    if (showStatDialog) showStatDialog = false
+    if (isComplete) isComplete = false
   } else {
     //这里判断是否显示结算弹框，如果显示了结算弹框的话，就不用加进度了
-    if (!showStatDialog) {
+    if (!isComplete) {
       console.log('没学完，强行跳过')
       store.sdict.lastLearnIndex = store.sdict.lastLearnIndex + statStore.newWordNumber
       // 忽略单词数
@@ -717,7 +719,7 @@ async function continueStudy() {
       }
     } else {
       console.log('学完了，正常下一组')
-      showStatDialog = false
+      isComplete = false
     }
 
     temp = getCurrentStudyWord()
@@ -897,7 +899,7 @@ useEvents([
       <Footer @skipStep="skipStep" />
     </template>
   </PracticeLayout>
-  <Statistics v-model="showStatDialog" />
+  <Statistics v-model="isComplete" />
   <ConflictNotice v-if="showConflictNotice" />
   <ConflictNotice2 v-model="showConflictNotice2" />
 </template>

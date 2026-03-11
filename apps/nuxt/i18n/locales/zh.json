@@ -519,5 +519,11 @@
 	"fsrs_hard_limit": "Hard评级判定标准",
 	"less_or_equals": "小于等于",
 	"times": "次",
-	"wrong": "错误"
+	"wrong": "错误",
+	"fsrs_advanced": "高级设置",
+	"fsrs_advanced_enable_fuzz": "为下次复习时间引入一定的随机",
+	"fsrs_advanced_enable_fuzz_desc": "通过引入随机,可以避免大量单词需要在同一天复习",
+	"fsrs_advanced_weight": "权重",
+	"fsrs_advanced_request_retention": "希望的最小回忆概率",
+	"fsrs_advanced_maximum_interval": "最大间隔天数限制"
 }

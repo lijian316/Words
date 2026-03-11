@@ -4,6 +4,7 @@ import { get } from 'idb-keyval'
 import { AppEnv, DefaultShortcutKeyMap, SAVE_SETTING_KEY } from '@/config/env'
 import { getSetting } from '@/apis'
 import { WordPracticeMode, WordPracticeType } from '@/types/enum'
+import type { FSRSParameters } from 'ts-fsrs'
 
 export interface SettingState {
   soundType: string
@@ -63,6 +64,8 @@ export interface SettingState {
   fsrsEasyLimit: number // 小于等于fsrsEasyLimit的卡片会评估为Easy
   fsrsGoodLimit: number // 小于等于fsrsEasyLimit且小于等于fsrsHardLimit的卡片会评估为Good
   fsrsHardLimit: number // 小于等于fsrsHardLimit的卡片会评估为Hard
+
+  fsrsParameters: FSRSParameters
 }
 
 export const getDefaultSettingState = (): SettingState => ({
@@ -118,11 +121,48 @@ export const getDefaultSettingState = (): SettingState => ({
   mobileNavCollapsed: false,
   ignoreSymbol: true,
   practiceSentence: false,
-  enableFSRS:false,
+  enableFSRS: false,
 
-  fsrsEasyLimit:0,
-  fsrsGoodLimit:3,
-  fsrsHardLimit:6,
+  fsrsEasyLimit: 0,
+  fsrsGoodLimit: 3,
+  fsrsHardLimit: 6,
+
+  fsrsParameters: {
+    request_retention: 0.9,
+    maximum_interval: 36500,
+    w: [
+      0.212,
+      1.2931,
+      2.3065,
+      8.2956,
+      6.4133,
+      0.8334,
+      3.0194,
+      0.001,
+      1.8722,
+      0.1666,
+      0.796,
+      1.4835,
+      0.0614,
+      0.2629,
+      1.6483,
+      0.6014,
+      1.8729,
+      0.5425,
+      0.0912,
+      0.0658,
+      0.1542,
+    ],
+    enable_fuzz: false,
+    enable_short_term: true,
+    learning_steps: [
+      '1m',
+      '10m',
+    ],
+    relearning_steps: [
+      '10m',
+    ]
+  }
 })
 
 export const useSettingStore = defineStore('setting', {

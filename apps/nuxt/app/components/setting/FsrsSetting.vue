@@ -19,8 +19,6 @@ const router = useRouter()
 
   {{ $t('fsrs_limit_desc') }}
 
-  <div class="line mt-4 mb-4"></div>
-
   <SettingItem :title="$t('fsrs_easy_limit')">
     {{ $t('less_or_equals') }}
     <InputNumber :min="0" :max="settingStore.fsrsGoodLimit" v-model="settingStore.fsrsEasyLimit" />
@@ -43,6 +41,35 @@ const router = useRouter()
     {{ $t('times') }}
     {{ $t('wrong') }}
   </SettingItem>
+
+  <div class="line mt-4 mb-4"></div>
+
+  <details>
+    <summary class="mt-4 mb-4">{{ $t('fsrs_advanced') }}</summary>
+
+    <div class="pl-8">
+      <SettingItem :title="$t('fsrs_advanced_enable_fuzz')" :desc="$t('fsrs_advanced_enable_fuzz_desc')">
+        <Switch v-model="settingStore.fsrsParameters.enable_fuzz" />
+      </SettingItem>
+
+      <SettingItem :title="$t('fsrs_advanced_request_retention')">
+        <InputNumber v-model="settingStore.fsrsParameters.request_retention" :min="0" :max="1" />
+      </SettingItem>
+
+      <SettingItem :title="$t('fsrs_advanced_maximum_interval')">
+        <InputNumber v-model="settingStore.fsrsParameters.maximum_interval" :min="0" />
+      </SettingItem>
+
+      <details>
+        <summary class="mt-4 mb-4">{{ $t('fsrs_advanced_weight') }}</summary>
+        <div v-for="(_, index) in settingStore.fsrsParameters.w" class="mt-4 mb-4">
+          <InputNumber v-model="settingStore.fsrsParameters.w[index]" />
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <div class="line mt-4 mb-4"></div>
 </template>
 
 <style scoped lang="scss"></style>
