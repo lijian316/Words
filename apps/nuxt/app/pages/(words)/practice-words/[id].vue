@@ -62,21 +62,19 @@ let taskWords = $ref<TaskWords>({
 //watch 实例列表，用于本地代码修改hrm后，导致重复watch
 let watchRefList = []
 
-function getDefaultPracticeData(val: Partial<PracticeData>): PracticeData {
-  return Object.assign(
-    {
-      index: 0,
-      words: [],
-      wrongWords: [],
-      excludeWords: [],
-      allWrongWords: [],
-      wrongTimesMap: {},
-      ratingMap: {},
-      wrongTimes: 0,
-      isTypingWrongWord: false,
-    },
-    val
-  )
+function getDefaultPracticeData(origin?: Partial<PracticeData>, val?: Partial<PracticeData>): PracticeData {
+  return Object.assign(origin, {
+    index: 0,
+    words: [],
+    wrongWords: [],
+    excludeWords: [],
+    allWrongWords: [],
+    wrongTimesMap: {},
+    ratingMap: {},
+    wrongTimes: 0,
+    isTypingWrongWord: false,
+    ...val,
+  })
 }
 let data = $ref<PracticeData>(getDefaultPracticeData({}))
 
@@ -210,7 +208,7 @@ async function initData(initVal?: TaskWords, init: boolean = false) {
     }
     taskWords = Object.assign(taskWords, d.taskWords)
     //这里直接赋值的话，provide后的inject获取不到最新值
-    data = getDefaultPracticeData(d.practiceData)
+    data = getDefaultPracticeData(data, d.practiceData)
     statStore.$patch(d.statStoreData)
   } else {
     // taskWords = initVal
@@ -219,14 +217,14 @@ async function initData(initVal?: TaskWords, init: boolean = false) {
 
     if (settingStore.wordPracticeMode === WordPracticeMode.Shuffle) {
       settingStore.wordPracticeType = WordPracticeType.Dictation
-      data = getDefaultPracticeData({ words: taskWords.review })
+      data = getDefaultPracticeData(data, { words: taskWords.review })
       statStore.stage = WordPracticeStage.Shuffle
       statStore.total = taskWords.review.length
       statStore.newWordNumber = 0
       statStore.reviewWordNumber = 0
     } else if (settingStore.wordPracticeMode === WordPracticeMode.Review) {
       if (taskWords.review.length) {
-        data = getDefaultPracticeData({ words: taskWords.review })
+        data = getDefaultPracticeData(data, { words: taskWords.review })
         statStore.stage = WordPracticeStage.IdentifyReview
       }
       statStore.total = taskWords.review.length
@@ -235,7 +233,7 @@ async function initData(initVal?: TaskWords, init: boolean = false) {
     } else {
       if (taskWords.new.length === 0) {
         if (taskWords.review.length) {
-          data = getDefaultPracticeData({ words: taskWords.review })
+          data = getDefaultPracticeData(data, { words: taskWords.review })
           if (settingStore.wordPracticeMode === WordPracticeMode.System) {
             statStore.stage = WordPracticeStage.IdentifyReview
           } else if (settingStore.wordPracticeMode === WordPracticeMode.Free) {
@@ -252,7 +250,7 @@ async function initData(initVal?: TaskWords, init: boolean = false) {
           router.push('/words')
         }
       } else {
-        data = getDefaultPracticeData({ words: taskWords.new })
+        data = getDefaultPracticeData(data, { words: taskWords.new })
         statStore.stage = WordPracticeModeStageMap[settingStore.wordPracticeMode][0]
       }
       statStore.total = taskWords.review.length + taskWords.new.length
