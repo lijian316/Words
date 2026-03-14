@@ -4,7 +4,7 @@ import { BaseIcon } from '@typewords/base'
 import CommonSetting from '@/components/setting/CommonSetting.vue'
 import WordSetting from '@/components/setting/WordSetting.vue'
 import ArticleSetting from '@/components/setting/ArticleSetting.vue'
-import { useDisableEventListener } from '~/hooks/event.ts'
+import { useDisableEventListener } from '@typewords/core/hooks/event.ts'
 
 const Dialog = defineAsyncComponent(() => import('@/components/dialog/Dialog.vue'))
 

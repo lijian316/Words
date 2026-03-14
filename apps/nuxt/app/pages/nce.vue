@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BasePage from '~/components/base/BasePage.vue'
-import { APP_NAME, Origin } from '@/config/env.ts'
+import { APP_NAME, Origin } from '@typewords/core/config/env.ts'
 
 let title = APP_NAME + ' 新概念英语'
 let route = useRoute()

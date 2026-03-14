@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { resourceWrap, useNav } from '@/utils'
+import { resourceWrap, useNav } from '@typewords/core/utils'
 import BasePage from '~/components/base/BasePage.vue'
-import type { DictResource } from '@/types/types.ts'
+import type { DictResource } from '@typewords/core/types/types.ts'
 import { useRuntimeStore } from '@/stores/runtime.ts'
 import { BaseIcon } from '@typewords/base'
 import Empty from '@/components/Empty.vue'
@@ -10,9 +10,9 @@ import DictList from '@/components/list/DictList.vue'
 import BackIcon from '~/components/icon/BackIcon.vue'
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
-import { getDefaultDict } from '@/types/func.ts'
+import { getDefaultDict } from '@typewords/core/types/func.ts'
 import { useFetch } from '@vueuse/core'
-import { DICT_LIST } from '@/config/env.ts'
+import { DICT_LIST } from '@typewords/core/config/env.ts'
 import BaseInput from '@/components/base/BaseInput.vue'
 
 const { nav } = useNav()

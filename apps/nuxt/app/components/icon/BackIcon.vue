@@ -2,7 +2,7 @@
 
 import { BaseIcon } from '@typewords/base'
 import { useAttrs } from "vue";
-import { useNav } from "~/utils";
+import { useNav } from "@typewords/core/utils";
 
 const attrs = useAttrs()
 const router = useNav()

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Article } from '~/types/types.ts'
+import type { Article } from '@typewords/core/types/types.ts'
 import { ref, watch } from 'vue'
 import { get } from 'idb-keyval'
 import { Audio } from '@typewords/base'
-import { ENV, LOCAL_FILE_KEY } from '~/config/env.ts'
+import { ENV, LOCAL_FILE_KEY } from '@typewords/core/config/env.ts'
 
 const props = defineProps<{
   article: Article

@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import type { Word } from '~/types/types'
+import type { Word } from '@typewords/core/types/types'
 import VolumeIcon from '~/components/icon/VolumeIcon.vue'
 import { useSettingStore } from '~/stores/setting'
 import { useBaseStore } from '~/stores/base'
-import { usePlayBeep, usePlayCorrect, usePlayKeyboardAudio, usePlayWordAudio, useTTsPlayAudio } from '~/hooks/sound'
-import { useEvents, emitter, EventKey } from '@typewords/utils/eventBus'
+import { usePlayBeep, usePlayCorrect, usePlayKeyboardAudio, usePlayWordAudio, useTTsPlayAudio } from '@typewords/core/hooks/sound'
+import { useEvents, emitter, EventKey } from '@typewords/core/utils/eventBus'
 import { onMounted, onUnmounted, watch } from 'vue'
 import SentenceHightLightWord from '~/components/word/SentenceHightLightWord.vue'
-import { getDefaultWord } from '~/types/func'
-import { _nextTick, last } from '~/utils'
+import { getDefaultWord } from '@typewords/core/types/func'
+import { _nextTick, last } from '@typewords/core/utils'
 import { BaseButton, Toast, ToastComponent, Tooltip, BaseIcon } from '@typewords/base'
 import Space from '~/components/article/Space.vue'
-import { ShortcutKey, WordPracticeType } from '~/types/enum'
+import { ShortcutKey, WordPracticeType } from '@typewords/core/types/enum'
 import { useI18n } from 'vue-i18n'
-import { useWordOptions } from '~/hooks/dict.ts'
+import { useWordOptions } from '@typewords/core/hooks/dict.ts'
 
 const { t: $t } = useI18n()
 

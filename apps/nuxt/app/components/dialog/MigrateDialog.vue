@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Toast } from '@typewords/base'
-import { Origin } from '~/config/env.ts'
+import { Origin } from '@typewords/core/config/env.ts'
 import { set } from 'idb-keyval'
 import { defineAsyncComponent } from 'vue'
 

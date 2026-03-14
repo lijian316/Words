@@ -3,14 +3,14 @@ import { nextTick, onMounted, useSlots } from 'vue'
 import { useI18n } from 'vue-i18n'
 import MiniDialog from '~/components/dialog/MiniDialog.vue'
 import { BaseButton, BaseIcon, Checkbox, PopConfirm } from '@typewords/base'
-import { debounce } from '~/utils'
+import { debounce } from '@typewords/core/utils'
 import Empty from '~/components/Empty.vue'
 import Pagination from '~/components/base/Pagination.vue'
 import DeleteIcon from '~/components/icon/DeleteIcon.vue'
 import Dialog from '~/components/dialog/Dialog.vue'
 import BaseInput from '~/components/base/BaseInput.vue'
-import { ENV } from '~/config/env.ts'
-import { Sort } from '~/types/enum.ts'
+import { ENV } from '@typewords/core/config/env.ts'
+import { Sort } from '@typewords/core/types/enum.ts'
 
 const { t: $t } = useI18n()
 

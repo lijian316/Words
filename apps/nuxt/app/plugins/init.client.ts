@@ -1,6 +1,6 @@
 //@ts-ignore
 import VueVirtualScroller from 'vue-virtual-scroller'
-import { ENV } from '~/config/env.ts'
+import { ENV } from '@typewords/core/config/env.ts'
 
 export default defineNuxtPlugin(async nuxtApp => {
   if (

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Dict } from '@/types/types'
+import type { Dict } from '@typewords/core/types/types'
 import { Checkbox, Progress } from '@typewords/base'
 
 interface IProps {

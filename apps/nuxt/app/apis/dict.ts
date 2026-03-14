@@ -1,5 +1,5 @@
-import http from '@/utils/http.ts'
-import type { Dict } from '@/types/types.ts'
+import http from '@typewords/core/utils/http.ts'
+import type { Dict } from '@typewords/core/types/types.ts'
 
 export function copyOfficialDict(params?, data?) {
   return http<Dict>('dict/copyOfficialDict', data, params, 'post')

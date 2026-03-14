@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { getUserInfo } from '@/apis/user'
 import type { User } from '@/apis/user'
-import { AppEnv } from '@/config/env'
+import { AppEnv } from '@typewords/core/config/env'
 import { Toast } from '@typewords/base'
 
 export const useUserStore = defineStore('user', () => {

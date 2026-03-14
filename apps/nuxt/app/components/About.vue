@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { GITHUB } from "@/config/env.ts";
+import { GITHUB } from "@typewords/core/config/env.ts";
 import ChannelIcons from "~/components/channel-icons/ChannelIcons.vue";
 import WeChat from "~/components/channel-icons/WeChat.vue";
 </script>

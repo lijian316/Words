@@ -2,8 +2,8 @@
 import { watch } from 'vue'
 import Dialog from '@/components/dialog/Dialog.vue'
 import { BaseButton } from '@typewords/base'
-import { useExport } from '@/hooks/export'
-import { IS_DEV } from '~/config/env.ts'
+import { useExport } from '@typewords/core/hooks/export'
+import { IS_DEV } from '@typewords/core/config/env.ts'
 
 const model = defineModel()
 

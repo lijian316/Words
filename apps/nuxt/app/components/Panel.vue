@@ -3,7 +3,7 @@ import {computed, provide} from "vue"
 import {useSettingStore} from "@/stores/setting";
 import Close from "@/components/icon/Close.vue";
 import { Tooltip } from '@typewords/base'
-import {ShortcutKey} from "@/types/enum";
+import {ShortcutKey} from "@typewords/core/types/enum";
 
 const settingStore = useSettingStore()
 let tabIndex = $ref(0)

@@ -2,7 +2,7 @@
 import { Slider } from '@typewords/base'
 import { defineAsyncComponent, watch } from 'vue'
 import { useBaseStore } from '~/stores/base.ts'
-import { WordPracticeModeNameMap } from '~/config/env'
+import { WordPracticeModeNameMap } from '@typewords/core/config/env'
 
 const props = defineProps({
   wordPracticeMode: Number,

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { BaseButton, Toast } from '@typewords/base'
 import { sendCode } from '@/apis/user.ts'
-import { PHONE_CONFIG } from '@/config/auth.ts'
-import { CodeType } from '@/types/enum.ts'
+import { PHONE_CONFIG } from '@typewords/core/config/auth.ts'
+import { CodeType } from '@typewords/core/types/enum.ts'
 import { useI18n } from 'vue-i18n'
 const { t: $t } = useI18n()
 

@@ -1,7 +1,7 @@
-import { emitter as bus } from '@typewords/utils/eventBus'
-import Utils from '@/utils/gm.js'
-import GM from '@/utils/gm.js'
-import { SlideType } from '@/config/env'
+import { emitter as bus } from '@typewords/core/utils/eventBus'
+import Utils from '@typewords/core/utils/gm.js'
+import GM from '@typewords/core/utils/gm.js'
+import { SlideType } from '@typewords/core/config/env'
 
 export function slideInit(el, state, type) {
   state.wrapper.width = GM.$getCss(el, 'width')

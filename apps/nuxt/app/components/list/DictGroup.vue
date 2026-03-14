@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {watch} from "vue";
-import type {DictResource} from "@/types/types.ts";
+import type {DictResource} from "@typewords/core/types/types.ts";
 import DictList from "@/components/list/DictList.vue";
 
 const props = defineProps<{

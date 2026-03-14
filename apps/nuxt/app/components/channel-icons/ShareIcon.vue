@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { APP_NAME, LIB_JS_URL, Origin } from '@/config/env.ts'
+import { APP_NAME, LIB_JS_URL, Origin } from '@typewords/core/config/env.ts'
 import { BaseIcon, Progress, Toast } from '@typewords/base'
 
 const Dialog = defineAsyncComponent(() => import('@/components/dialog/Dialog.vue'))
 
 import { usePracticeStore } from '@/stores/practice.ts'
 import { useBaseStore } from '@/stores/base.ts'
-import { loadJsLib, msToHourMinute } from '@/utils'
+import { loadJsLib, msToHourMinute } from '@typewords/core/utils'
 import dayjs from 'dayjs'
 import { useUserStore } from '@/stores/user.ts'
 import { defineAsyncComponent } from 'vue'

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { APP_NAME, GITHUB } from '~/config/env.ts'
+import { APP_NAME, GITHUB } from '@typewords/core/config/env.ts'
 import { BaseIcon } from '@typewords/base'
-import { getSystemTheme, listenToSystemThemeChange, setTheme, swapTheme } from '~/hooks/theme.ts'
+import { getSystemTheme, listenToSystemThemeChange, setTheme, swapTheme } from '@typewords/core/hooks/theme.ts'
 
 definePageMeta({
   layout: 'empty',

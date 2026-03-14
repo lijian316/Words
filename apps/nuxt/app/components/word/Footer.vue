@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { usePracticeStore } from '~/stores/practice'
 import { useSettingStore } from '~/stores/setting'
-import type { PracticeData } from '~/types/types'
+import type { PracticeData } from '@typewords/core/types/types'
 import { BaseIcon } from '@typewords/base'
 import { Tooltip } from '@typewords/base'
 import SettingDialog from '~/components/setting/SettingDialog.vue'
 import VolumeSettingMiniDialog from '~/components/word/VolumeSettingMiniDialog.vue'
 import StageProgress from '~/components/StageProgress.vue'
-import { ShortcutKey, WordPracticeMode, WordPracticeStage } from '~/types/enum'
-import { WordPracticeModeNameMap, WordPracticeStageNameMap } from '~/config/env'
+import { ShortcutKey, WordPracticeMode, WordPracticeStage } from '@typewords/core/types/enum'
+import { WordPracticeModeNameMap, WordPracticeStageNameMap } from '@typewords/core/config/env'
 
 const statStore = usePracticeStore()
 const settingStore = useSettingStore()

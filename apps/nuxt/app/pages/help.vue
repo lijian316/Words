@@ -2,7 +2,7 @@
 import BasePage from '~/components/base/BasePage.vue'
 import { Collapse } from '@typewords/base'
 import WeChat from '~/components/channel-icons/WeChat.vue'
-import { APP_NAME, GITHUB, Origin } from '@/config/env.ts'
+import { APP_NAME, GITHUB, Origin } from '@typewords/core/config/env.ts'
 import ConflictNoticeText from '~/components/dialog/ConflictNoticeText.vue'
 
 let title = APP_NAME + ' 常见问题解答'

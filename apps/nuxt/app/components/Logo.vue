@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSettingStore } from '@/stores/setting.ts'
 import { useRouter } from 'vue-router'
-import { IS_DEV } from '@/config/env'
+import { IS_DEV } from '@typewords/core/config/env'
 
 const settingStore = useSettingStore()
 const router = useRouter()

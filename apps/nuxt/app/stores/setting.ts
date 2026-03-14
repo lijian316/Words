@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
-import { checkAndUpgradeSaveSetting, cloneDeep } from '@/utils'
+import { checkAndUpgradeSaveSetting, cloneDeep } from '@typewords/core/utils'
 import { get } from 'idb-keyval'
-import { AppEnv, DefaultShortcutKeyMap, SAVE_SETTING_KEY } from '@/config/env'
+import { AppEnv, DefaultShortcutKeyMap, SAVE_SETTING_KEY } from '@typewords/core/config/env'
 import { getSetting } from '@/apis'
-import { WordPracticeMode, WordPracticeType } from '@/types/enum'
+import { WordPracticeMode, WordPracticeType } from '@typewords/core/types/enum'
 import type { FSRSParameters } from 'ts-fsrs'
 
 export interface SettingState {

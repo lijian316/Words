@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from "vue";
-import GM from '@/utils/gm.js'
+import GM from '@typewords/core/utils/gm.js'
 import {
   getSlideDistance,
   slideInit,
@@ -10,7 +10,7 @@ import {
   slideTouchStart
 } from "./common";
 
-import {SlideType} from "@/config/env";
+import {SlideType} from "@typewords/core/config/env";
 
 const props = defineProps({
   index: {

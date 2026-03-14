@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { defineAsyncComponent, nextTick, ref, watch } from 'vue'
 import { getDefaultSettingState, useSettingStore } from '@/stores/setting'
-import { getShortcutKey, useEventListener } from '@/hooks/event'
-import { checkAndUpgradeSaveDict, checkAndUpgradeSaveSetting, cloneDeep, loadJsLib } from '@/utils'
+import { getShortcutKey, useEventListener } from '@typewords/core/hooks/event'
+import { checkAndUpgradeSaveDict, checkAndUpgradeSaveSetting, cloneDeep, loadJsLib } from '@typewords/core/utils'
 import { BaseButton, Form, FormItem, type FormType, PopConfirm, Toast } from '@typewords/base'
 import { getDefaultBaseState, useBaseStore } from '@/stores/base'
 import {
@@ -17,11 +17,11 @@ import {
   Origin,
   SAVE_DICT_KEY,
   SAVE_SETTING_KEY,
-} from '@/config/env'
+} from '@typewords/core/config/env'
 import BasePage from '~/components/base/BasePage.vue'
 import { get, set } from 'idb-keyval'
 import { useRuntimeStore } from '@/stores/runtime'
-import { useExport } from '@/hooks/export'
+import { useExport } from '@typewords/core/hooks/export'
 import MigrateDialog from '~/components/dialog/MigrateDialog.vue'
 import Log from '@/components/setting/Log.vue'
 import About from '@/components/About.vue'
@@ -29,11 +29,11 @@ import CommonSetting from '@/components/setting/CommonSetting.vue'
 import FsrsSetting from '@/components/setting/FsrsSetting.vue'
 import ArticleSetting from '@/components/setting/ArticleSetting.vue'
 import WordSetting from '@/components/setting/WordSetting.vue'
-import { PRACTICE_ARTICLE_CACHE, PRACTICE_WORD_CACHE } from '@/utils/cache'
+import { PRACTICE_ARTICLE_CACHE, PRACTICE_WORD_CACHE } from '@typewords/core/utils/cache'
 import { usePracticeArticlePersistence, usePracticeWordPersistence } from '@/composables/usePracticePersistence'
 import { useDataSyncPersistence } from '@/composables/useDataSyncPersistence'
 import SettingItem from '~/components/setting/SettingItem.vue'
-import { Supabase } from '~/utils/supabase.ts'
+import { Supabase } from '@typewords/core/utils/supabase.ts'
 import BackupGateDialog from '@/components/dialog/BackupGateDialog.vue'
 import { createClient } from '@supabase/supabase-js'
 import { useRoute } from 'vue-router'

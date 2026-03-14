@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {ref, useAttrs, watch, computed} from 'vue';
 import Close from "@/components/icon/Close.vue";
-import {useDisableEventListener} from "@/hooks/event.ts";
+import {useDisableEventListener} from "@typewords/core/hooks/event.ts";
 
 defineOptions({
   name: "BaseInput",

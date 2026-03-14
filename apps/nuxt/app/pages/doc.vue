@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import BasePage from '~/components/base/BasePage.vue'
 import { BaseButton } from '@typewords/base'
 import ResourceCard from '@/components/ResourceCard.vue'
-import { APP_NAME, Origin } from '~/config/env.ts'
+import { APP_NAME, Origin } from '@typewords/core/config/env.ts'
 
 let route = useRoute()
 let title = APP_NAME + ' 英语学习资源分享'

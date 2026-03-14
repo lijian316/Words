@@ -14,8 +14,7 @@
   },
   "dependencies": {
     "@typewords/base": "workspace:*",
-    "@typewords/types": "workspace:*",
-    "@typewords/utils": "workspace:*",
-    "@typewords/libs": "workspace:*"
+    "@typewords/libs": "workspace:*",
+    "@typewords/core": "workspace:*"
   }
 }

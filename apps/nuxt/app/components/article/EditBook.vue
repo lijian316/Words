@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import type { Dict } from '~/types/types.ts'
-import { cloneDeep } from '~/utils'
+import type { Dict } from '@typewords/core/types/types.ts'
+import { cloneDeep } from '@typewords/core/utils'
 import { onMounted, reactive } from 'vue'
 import { useRuntimeStore } from '~/stores/runtime.ts'
 import { useBaseStore } from '~/stores/base.ts'
 import { BaseButton, Form, FormItem, Toast } from '@typewords/base'
-import { getDefaultDict } from '~/types/func.ts'
+import { getDefaultDict } from '@typewords/core/types/func.ts'
 import Select from '~/components/base/select/Select.vue'
 import Option from '~/components/base/select/Option.vue'
 import BaseInput from '~/components/base/BaseInput.vue'
 
 import { addDict } from '~/apis'
-import { AppEnv, DictId } from '~/config/env.ts'
+import { AppEnv, DictId } from '@typewords/core/config/env.ts'
 import { nanoid } from 'nanoid'
-import { DictType } from '~/types/enum.ts'
+import { DictType } from '@typewords/core/types/enum.ts'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{

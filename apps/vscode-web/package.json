@@ -14,9 +14,8 @@
   },
   "dependencies": {
     "@typewords/base": "workspace:*",
-    "@typewords/types": "workspace:*",
-    "@typewords/utils": "workspace:*",
     "@typewords/libs": "workspace:*",
+    "@typewords/core": "workspace:*",
     "jszip": "^3.10.1"
   },
   "config": {

@@ -2,23 +2,23 @@ import {
   APP_VERSION,
   BACKUP_INDEX_KEY,
   BACKUP_KEY,
-  WEBSITE_VERSION_HASH,
   LOCAL_FILE_KEY,
   SAVE_DICT_KEY,
   SAVE_SETTING_KEY,
-} from '@/config/env.ts'
-import { shakeCommonDict } from '@/utils/index.ts'
-import { PRACTICE_ARTICLE_CACHE, PRACTICE_WORD_CACHE } from '@/utils/cache'
+  WEBSITE_VERSION_HASH,
+} from '@typewords/core/config/env.ts'
+import { shakeCommonDict } from '@typewords/core/utils/index.ts'
+import { PRACTICE_ARTICLE_CACHE, PRACTICE_WORD_CACHE } from '@typewords/core/utils/cache'
 import { del, get, set } from 'idb-keyval'
 import { syncSetting } from '~/apis'
-import { AppEnv, DictId } from '~/config/env.ts'
+import { AppEnv, DictId } from '@typewords/core/config/env.ts'
 import { useBaseStore } from '~/stores/base.ts'
 import { useRuntimeStore } from '~/stores/runtime.ts'
 import { useSettingStore } from '~/stores/setting.ts'
 import { useUserStore } from '~/stores/user.ts'
-import { CompareResult } from '~/types/enum.ts'
-import { Supabase } from '~/utils/supabase.ts'
-import { debounce } from '~/utils'
+import { CompareResult } from '@typewords/core/types/enum.ts'
+import { Supabase } from '@typewords/core/utils/supabase.ts'
+import { debounce } from '@typewords/core/utils'
 import { useDataSyncPersistence } from '@/composables/useDataSyncPersistence'
 
 let unsub = null

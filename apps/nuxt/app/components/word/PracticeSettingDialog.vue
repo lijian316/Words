@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { _getAccomplishDays } from '~/utils'
+import { _getAccomplishDays } from '@typewords/core/utils'
 import { BaseButton, InputNumber, Slider, Tooltip, Toast } from '@typewords/base'
 import { defineAsyncComponent, watch } from 'vue'
 import { useSettingStore } from '~/stores/setting'

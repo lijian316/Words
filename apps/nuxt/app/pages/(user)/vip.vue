@@ -8,7 +8,7 @@ import { onMounted, onUnmounted, watch } from 'vue'
 import Header from '@/components/Header.vue'
 import type { CouponInfo, LevelBenefits } from '@/apis/member.ts'
 import { alipayQuery, couponInfo, levelBenefits, orderCreate, orderStatus, setAutoRenewApi } from '@/apis/member.ts'
-import { _dateFormat, _nextTick } from '@/utils'
+import { _dateFormat, _nextTick } from '@typewords/core/utils'
 import BaseInput from '@/components/base/BaseInput.vue'
 
 const router = useRouter()

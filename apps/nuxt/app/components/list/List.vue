@@ -1,8 +1,8 @@
 <script setup lang="ts" generic="T extends Article">
 
 import { BaseIcon } from '@typewords/base'
-import { cloneDeep, throttle } from "@/utils";
-import type { Article } from "@/types/types.ts";
+import { cloneDeep, throttle } from "@typewords/core/utils";
+import type { Article } from "@typewords/core/types/types.ts";
 import DeleteIcon from "@/components/icon/DeleteIcon.vue";
 import BaseInput from "@/components/base/BaseInput.vue";
 

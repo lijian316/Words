@@ -34,7 +34,7 @@
 
 <script setup>
 import {computed, nextTick, onMounted, ref, watch} from 'vue'
-import {shuffle} from "~/utils/index.js";
+import {shuffle} from "@typewords/core/utils/index.js";
 
 const props = defineProps({
   stem: String,

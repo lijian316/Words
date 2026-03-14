@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BaseList from '@/components/list/BaseList.vue'
-import type { Word } from '@/types/types.ts'
+import type { Word } from '@typewords/core/types/types.ts'
 import WordItem from '../word/WordItem.vue'
 
 interface Props {

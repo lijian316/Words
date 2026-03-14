@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Article } from '@/types/types.ts'
+import type { Article } from '@typewords/core/types/types.ts'
 import BaseList from '@/components/list/BaseList.vue'
 import BaseInput from '@/components/base/BaseInput.vue'
-import { useArticleOptions } from '@/hooks/dict.ts'
+import { useArticleOptions } from '@typewords/core/hooks/dict.ts'
 import { BaseIcon } from '@typewords/base'
 
 interface IProps {

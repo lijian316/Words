@@ -1,4 +1,10 @@
-import { checkAndUpgradeSaveDict, checkAndUpgradeSaveSetting, shakeCommonDict, _getDictDataByUrl } from '@/utils'
+import {
+  checkAndUpgradeSaveDict,
+  checkAndUpgradeSaveSetting,
+  shakeCommonDict,
+  _getDictDataByUrl,
+  shouldFetchRemote,
+} from '@typewords/core/utils'
 import {
   getPracticeArticleCacheLocal,
   getPracticeArticleCacheLocalWithMeta,
@@ -10,13 +16,12 @@ import {
   setPracticeWordCacheLocal,
   type PracticeArticleCache,
   type PracticeWordCacheStored,
-} from '@/utils/cache'
-import { shouldFetchRemoteV2 } from '@/utils/sync'
-import { SAVE_DICT_KEY, SAVE_SETTING_KEY } from '@/config/env'
+} from '@typewords/core/utils/cache'
+import { SAVE_DICT_KEY, SAVE_SETTING_KEY } from '@typewords/core/config/env'
 import { useBaseStore } from '@/stores/base'
 import { useSettingStore } from '@/stores/setting'
-import { DictType, CompareResult } from '~/types/enum'
-import { Supabase } from '~/utils/supabase'
+import { DictType, CompareResult } from '@typewords/core/types/enum'
+import { Supabase } from '@typewords/core/utils/supabase'
 import { get, set } from 'idb-keyval'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
@@ -163,7 +168,7 @@ async function fetchCompareResultByType(
   //如果本地没有更新日期，那必定是刚更新版本，updated_at和sb 一起上线，这里特殊处理即可
   if (!localMeta?.updated_at) return CompareResult.LocalNewer
   const currentVersion = getDataVersion(type)
-  return shouldFetchRemoteV2(localMeta.updated_at, remoteMeta.updated_at, remoteMeta.data_version, currentVersion)
+  return shouldFetchRemote(localMeta.updated_at, remoteMeta.updated_at, remoteMeta.data_version, currentVersion)
 }
 
 async function upsertServerData(

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, watch } from 'vue'
 import { Tooltip } from '@typewords/base'
-import { useEventListener } from '@/hooks/event'
+import { useEventListener } from '@typewords/core/hooks/event'
 import { useI18n } from 'vue-i18n'
 
 import { BaseButton } from '@typewords/base'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {Dict} from "@/types/types.ts";
+import type {Dict} from "@typewords/core/types/types.ts";
 import Book from "@/components/Book.vue";
 
 defineProps<{

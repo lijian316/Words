@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { Word } from '~/types/types.ts'
+import type { Word } from '@typewords/core/types/types.ts'
 import VolumeIcon from '~/components/icon/VolumeIcon.vue'
-import { usePlayWordAudio } from '~/hooks/sound.ts'
+import { usePlayWordAudio } from '@typewords/core/hooks/sound.ts'
 import { Tooltip } from '@typewords/base'
 import { BaseIcon } from '@typewords/base'
-import { useWordOptions } from '~/hooks/dict.ts'
+import { useWordOptions } from '@typewords/core/hooks/dict.ts'
 import SentenceHightLightWord from '~/components/word/SentenceHightLightWord.vue'
 
 withDefaults(
