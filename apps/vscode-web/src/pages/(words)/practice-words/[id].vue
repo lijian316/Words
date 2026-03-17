@@ -222,8 +222,12 @@ async function initData(initVal?: TaskWords, init: boolean = false) {
     if (!d) {
       d = await wordPersistence.load()
     }
-    if (!d || !(d.practiceData && d.statStoreData)) {
+    if (!d) {
       initData(getCurrentStudyWord())
+      return
+    }
+    if (!(d.practiceData && d.statStoreData)) {
+      initData(d.taskWords)
       return
     }
     taskWords = Object.assign(taskWords, d.taskWords)
@@ -809,7 +813,7 @@ useEvents([
     <template v-slot:practice>
       <div class="mb-20 color-[var(--color-practice-font2)] monaco-workbench text-base">
         <div v-html="prefixTxt"></div>
-        <div class="px-4 mb-3">
+        <div class="px-4 mb-3 text-lg">
           <TypeWord
             ref="typingRef"
             :word="word"

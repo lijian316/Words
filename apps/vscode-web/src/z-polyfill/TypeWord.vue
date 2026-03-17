@@ -631,7 +631,7 @@ const isCollect = $computed(() => isWordCollect(props.word))
         </BaseButton>
       </div>
 
-      <div class="translate text-sm" v-opacity="settingStore.translate || showWordResult || showFullWord">
+      <div class="translate text-base" v-opacity="settingStore.translate || showWordResult || showFullWord">
         <div class="flex" v-for="v in word.trans">
           <span class="shrink-0 mr-1" :class="v.pos ? 'en-article-family' : ''">
             {{ v.pos }}
@@ -656,7 +656,7 @@ const isCollect = $computed(() => isWordCollect(props.word))
         <!--        <div class="line-white my-1"></div>-->
         <div class="flex flex-col gap-2 mt-2">
           <div class="sentence" v-for="item in word.sentences">
-            <HoverReveal class="text-sm flex gap-1">
+            <HoverReveal class="text-base flex gap-1">
               <SentenceHightLightWord
                 :text="item.c"
                 :word="word.word"

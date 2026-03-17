@@ -405,7 +405,6 @@ async function onSbFirstSyncChoice(action: 'push_local' | 'pull_remote') {
     sbStatus = Supabase.getStatus()
     Supabase.saveConfig(sbForm?.url, sbForm?.key)
     showSbFirstSyncChoiceDialog = false
-    transferOk()
   } catch (error) {
     const msg = (error as Error)?.message ?? String(error)
     Supabase.setStatus('error', msg)
