@@ -38,3 +38,4 @@ report.html
 .env.*
 !.env.example
 public/vscode
+apps/electron
