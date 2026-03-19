@@ -11,7 +11,7 @@
     "build-dev-web": "pnpm -F @typewords/nuxt generate-dev",
     "build-vscode-web": "pnpm -F @typewords/vscode-web build",
     "dev-vscode-web": "pnpm -F @typewords/vscode-web dev",
-    "test": "",
+    "test": ""
   },
   "dependencies": {
     "@floating-ui/dom": "^1.7.4",
