@@ -332,6 +332,33 @@ h1 {
   .content {
     margin-top: 4rem;
     gap: 1.4rem;
+    padding: 0 1rem;
+    box-sizing: border-box;
+
+    .w-70vw {
+      width: 100% !important;
+    }
+
+    .flex.gap-10,
+    .flex.gap-14 {
+      flex-direction: column;
+    }
+
+    .text-right {
+      text-align: left !important;
+    }
+
+    .text-4xl {
+      font-size: 1.6rem !important;
+    }
+
+    .mt-30 {
+      margin-top: 2rem;
+    }
+
+    .mt-20 {
+      margin-top: 1.5rem;
+    }
   }
 
   .base-button {
@@ -343,6 +370,20 @@ h1 {
 
   .base-button + .base-button {
     margin-left: 0;
+  }
+
+  .center.relative.h-14 {
+    padding: 0 1rem;
+
+    .flex.gap-10 {
+      gap: 1.5rem;
+      flex-direction: row;
+      font-size: 0.95rem;
+    }
+
+    .absolute.right-6 {
+      right: 0.5rem;
+    }
   }
 }
 

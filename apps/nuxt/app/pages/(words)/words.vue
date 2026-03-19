@@ -637,4 +637,28 @@ onUnmounted(() => {
     @apply color-gray-500;
   }
 }
+
+@media (max-width: 768px) {
+  .stat {
+    border-radius: 0.75rem;
+    padding: 0.75rem 0.5rem;
+
+    .num {
+      font-size: 2rem;
+    }
+
+    .txt {
+      font-size: 0.8rem;
+    }
+  }
+
+  // 让 flex-1 的按钮在移动端撑满
+  .btn-no-margin {
+    flex-direction: column;
+
+    > * {
+      width: 100%;
+    }
+  }
+}
 </style>

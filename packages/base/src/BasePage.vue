@@ -22,7 +22,7 @@
     width: 100vw !important;
     margin-top: 0.5rem;
     min-height: calc(100vh - 0.5rem);
-    padding: 0 0.5rem;
+    padding: 0 0.75rem 1rem;
     box-sizing: border-box;
   }
 }
@@ -32,7 +32,7 @@
   .page {
     margin-top: 0.3rem;
     min-height: calc(100vh - 0.3rem);
-    padding: 0 0.3rem;
+    padding: 0 0.5rem 1rem;
   }
 }
 </style>

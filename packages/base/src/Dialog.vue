@@ -224,6 +224,9 @@ $time: 0.3s;
   .window {
     animation: bounce-in $time ease-out;
     @apply shadow-lg rounded-lg;
+    max-width: 96vw;
+    max-height: 90vh;
+    overflow-y: auto;
 
     &.bounce-out {
       opacity: 0;
@@ -270,6 +273,31 @@ $time: 0.3s;
 
     .modal-footer {
       @apply flex justify-between p-5;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-root {
+    align-items: flex-end;
+
+    .window {
+      width: 100vw;
+      max-width: 100vw;
+      max-height: 85vh;
+      border-radius: 1rem 1rem 0 0;
+      overflow-y: auto;
+    }
+
+    .modal {
+      .modal-header {
+        padding: 1rem 1.2rem 0.5rem;
+      }
+
+      .modal-footer {
+        padding: 0.8rem 1.2rem;
+        padding-bottom: calc(0.8rem + env(safe-area-inset-bottom, 0px));
+      }
     }
   }
 }

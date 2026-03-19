@@ -1,0 +1,6 @@
+{
+  "buildCommand": "pnpm --filter @typewords/nuxt build",
+  "installCommand": "pnpm install",
+  "outputDirectory": "apps/nuxt/.output",
+  "framework": "nuxtjs"
+}

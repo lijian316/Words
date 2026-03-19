@@ -18,7 +18,7 @@ let showShareDialog = $ref(false)
 let loading1 = $ref(false)
 let loading2 = $ref(false)
 let posterEl = $ref<HTMLDivElement | null>(null)
-let imgIndex = $ref(Math.floor(Math.random() * 10))
+let bgSeed = $ref(Math.floor(Math.random() * 1000))
 
 // 计算学习统计数据
 const studyStats = $computed(() => {
@@ -66,8 +66,7 @@ async function downloadImage() {
 
 // 切换背景
 function changeBackground() {
-  const newIndex = Math.floor(Math.random() * 9) // 0-8
-  imgIndex = newIndex >= imgIndex ? newIndex + 1 : newIndex
+  bgSeed = Math.floor(Math.random() * 1000)
 }
 
 // 计算学习进度百分比
@@ -186,7 +185,7 @@ const sentence = $computed(() => {
           </div>
         </div>
 
-        <img :src="`/imgs/share/bg/${imgIndex}.jpg`" class="w-full object-cover object-center absolute top-0" alt="" />
+        <img :src="`https://picsum.photos/seed/${bgSeed}/800/1200`" class="w-full h-full object-cover object-center absolute top-0" alt="" />
       </div>
 
       <!-- 右侧：分享引导区域 -->

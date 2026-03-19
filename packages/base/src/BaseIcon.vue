@@ -22,7 +22,6 @@ const emit = defineEmits(['click'])
 $w: 1.4rem;
 .icon-wrapper {
   cursor: pointer;
-  //padding: 2rem;
   width: 2rem;
   height: 2rem;
   display: inline-flex;
@@ -31,9 +30,16 @@ $w: 1.4rem;
   border-radius: 0.3rem;
   background: transparent;
   transition: all 0.3s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 
   &:hover:not(.disabled, .noBg) {
     background: var(--color-fourth);
+  }
+
+  &:active:not(.disabled) {
+    opacity: 0.7;
+    transform: scale(0.9);
   }
 
   &.disabled {
@@ -44,6 +50,13 @@ $w: 1.4rem;
   :deep(svg) {
     width: $w;
     height: $w;
+  }
+}
+
+@media (max-width: 768px) {
+  .icon-wrapper {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
   }
 }
 </style>

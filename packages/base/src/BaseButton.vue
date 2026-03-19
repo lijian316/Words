@@ -68,6 +68,8 @@ html.dark {
   font-size: 0.9rem;
   height: 2rem;
   color: white;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 
   & + .base-button {
     margin-left: 1rem;
@@ -142,6 +144,25 @@ html.dark {
 
   &.active {
     opacity: 0.4;
+  }
+
+  &:active:not(.disabled) {
+    opacity: 0.75;
+    transform: scale(0.97);
+  }
+}
+
+@media (max-width: 768px) {
+  .base-button {
+    &.large {
+      height: 2.8rem;
+      font-size: 1rem;
+      border-radius: 0.6rem;
+    }
+
+    &.normal {
+      height: 2.4rem;
+    }
   }
 }
 </style>

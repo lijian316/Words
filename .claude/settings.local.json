@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s https://api.github.com/repos/RealKai42/qwerty-learner/git/trees/master?recursive=1)",
+      "Bash(curl -s https://api.github.com/repos/RealKai42/qwerty-learner/contents/src/resources)",
+      "Bash(curl -s https://api.github.com/repos/RealKai42/qwerty-learner/contents/src/assets)",
+      "Bash(curl -s https://api.github.com/repos/RealKai42/qwerty-learner/contents/src/constants)"
+    ]
+  }
+}

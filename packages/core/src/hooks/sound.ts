@@ -17,7 +17,7 @@ export function useSound(audioSrcList?: string[], audioFileLength?: number) {
     if (audioFileLength2) audioLength = audioFileLength2
     audioList = []
     for (let i = 0; i < audioLength; i++) {
-      audioSrcList2.map(src => audioList.push(new Audio(ENV.RESOURCE_URL + src)))
+      audioSrcList2.map(src => audioList.push(new Audio(src.startsWith('/') || src.startsWith('http') ? src : ENV.RESOURCE_URL + src)))
     }
     index = 0
   }

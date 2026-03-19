@@ -174,6 +174,7 @@ html.dark {
     --stat-gap: 0.3rem;
     --article-panel-width: 100vw;
     --word-panel-margin-left: 0;
+    --mobile-nav-height: 3.5rem;
   }
 }
 
@@ -281,6 +282,7 @@ a {
   @apply cursor-pointer w-full box-border bg-third rounded-lg flex justify-between gap-1 transition-all duration-300 p-2;
   color: var(--color-main-text);
   border: 1px solid var(--color-item-border);
+  -webkit-tap-highlight-color: transparent;
 
   .left {
     @apply flex gap-1;
@@ -416,9 +418,23 @@ a {
   @extend .anim;
   @apply p-3 rounded-md relative cursor-pointer hover:bg-fifth border-item-solid flex flex-col justify-between shrink-0;
   background: var(--bg-book);
+  -webkit-tap-highlight-color: transparent;
   $w: 7rem;
   width: $w;
   height: calc($w * 1.4);
+
+  &:active {
+    opacity: 0.75;
+    transform: scale(0.97);
+  }
+}
+
+@media (max-width: 768px) {
+  .book {
+    $w: 6rem;
+    width: $w;
+    height: calc($w * 1.4);
+  }
 }
 
 .line {

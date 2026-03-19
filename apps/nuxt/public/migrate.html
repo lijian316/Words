@@ -18,7 +18,7 @@
   function loadIDBKeyval() {
     return new Promise((resolve) => {
       let script = document.createElement("script");
-      script.src = 'https://files.2study.top/libs/idb-keyval.js';
+      script.src = 'https://cdn.jsdelivr.net/npm/idb-keyval/dist/umd.js';
       script.onload = function () {
         log("idb-keyval 加载完成");
         resolve(window.idbKeyval);

@@ -8,7 +8,7 @@ import { usePlayBeep, usePlayCorrect, usePlayKeyboardAudio, usePlayWordAudio, us
 import { emitter, EventKey, useEvents } from '../../utils/eventBus'
 import { onMounted, onUnmounted, watch } from 'vue'
 import SentenceHightLightWord from './SentenceHightLightWord.vue'
-import { _nextTick, last } from '../../utils'
+import { _nextTick, isMobile, last } from '../../utils'
 import { BaseButton, BaseIcon, Toast, ToastComponent, Tooltip } from '@typewords/base'
 import Space from '../article/Space.vue'
 import { useI18n } from 'vue-i18n'
@@ -450,6 +450,13 @@ function play() {
   volumeIconRef?.play()
 }
 
+function focusMobileInput() {
+  const input = document.querySelector('#typing-listener') as HTMLInputElement | null
+  if (input) {
+    input.focus()
+  }
+}
+
 defineExpose({ del, showWord, hideWord, play, showWordResult, wrongTimes })
 
 function mouseleave() {
@@ -836,6 +843,16 @@ const isCollect = $computed(() => isWordCollect(props.word))
         height: isTypingSentence() ? '20px' : settingStore.fontSize.wordForeignFontSize + 'px',
       }"
     ></div>
+
+    <!-- 移动端点击输入提示 -->
+    <div
+      class="mobile-tap-hint"
+      v-if="settingStore.wordPracticeType !== WordPracticeType.Identify"
+      @click="focusMobileInput"
+    >
+      <IconFluentKeyboard20Regular class="hint-icon" />
+      <span>点击此处输入</span>
+    </div>
   </div>
 </template>
 
@@ -912,6 +929,40 @@ const isCollect = $computed(() => isWordCollect(props.word))
 
   .pos {
     @apply text-lg w-12;
+  }
+}
+
+// 移动端点击输入提示 - 仅在移动端可见
+.mobile-tap-hint {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-tap-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 2rem;
+    border: 1.5px dashed var(--color-item-border);
+    color: var(--color-main-text);
+    opacity: 0.55;
+    cursor: pointer;
+    font-size: 0.85rem;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    transition: opacity 0.2s;
+
+    &:active {
+      opacity: 0.9;
+    }
+
+    .hint-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
   }
 }
 
