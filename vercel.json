@@ -1,6 +1,6 @@
 {
   "buildCommand": "pnpm --filter @typewords/nuxt build",
-  "installCommand": "pnpm install",
+  "installCommand": "pnpm install --no-frozen-lockfile",
   "outputDirectory": "apps/nuxt/.output",
   "framework": "nuxtjs"
 }
