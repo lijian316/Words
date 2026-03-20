@@ -6,6 +6,7 @@ export const Host = 'worddrill.app'
 export const Old_Host = 'typewords.cc'
 export const Origin = `https://${Host}`
 export const APP_NAME = 'WordDrill'
+export const EMAIL = ''
 
 const common = {
   word_dict_list_version: 1,
